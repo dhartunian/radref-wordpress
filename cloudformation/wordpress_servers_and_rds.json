@@ -1,0 +1,66 @@
+{
+    "Parameters": {
+        "Ec2Image": {
+            "Type": "String",
+            "Default": "ami-cd0f5cb6"
+        }
+    },
+    "Resources": {
+        "StagingSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupName": "radref-trellis-security-group",
+                "GroupDescription": "Servers and dbs for staging trellis",
+                "VpcId": "vpc-66d01601",
+                "SecurityGroupEgress": [
+                    {
+                        "FromPort": "0",
+                        "ToPort": "65535",
+                        "CidrIp": "0.0.0.0/0",
+                        "IpProtocol": "-1"
+                    }
+                ],
+                "SecurityGroupIngress": [
+                    {
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0",
+                        "IpProtocol": "tcp"
+                    },
+                    {
+                        "FromPort": "443",
+                        "ToPort": "443",
+                        "CidrIp": "0.0.0.0/0",
+                        "IpProtocol": "tcp"
+                    },
+                    {
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0",
+                        "IpProtocol": "tcp"
+                    }
+                ],
+                "Tags": [
+                    {"Key": "Name", "Value": "radref-trellis-securitygroup"},
+                    {"Key": "Grouping", "Value": "wordpress"},
+                    {"Key": "Project", "Value": "radref"}
+                ]
+            }
+        },
+        "StagingEC2": {
+            "Type": "AWS::EC2::Instance",
+            "DependsOn" : ["RadRefSecurityGroup"],
+            "Properties": {
+                "ImageId": {"Ref": "Ec2Image"},
+                "InstanceType": "t2.nano",
+                "KeyName": "trellis",
+                "SecurityGroups": [ "radref-trellis-security-group" ],
+                "Tags" : [
+                    {"Key" : "Name", "Value" : "radref-wordpress"},
+                    {"Key": "Grouping", "Value": "wordpress"},
+                    {"Key": "Project", "Value": "radref"}
+                ]
+            }
+        }
+    }
+}
