@@ -3,6 +3,14 @@
         "Ec2Image": {
             "Type": "String",
             "Default": "ami-cd0f5cb6"
+        },
+        "VpcId": {
+            "Type": "String",
+            "Default": "vpc-66d01601"
+        },
+        "SubnetId": {
+            "Type": "String",
+            "Default": "subnet-0ddc8630"
         }
     },
     "Resources": {
@@ -11,7 +19,7 @@
             "Properties": {
                 "GroupName": "radref-trellis-security-group",
                 "GroupDescription": "Servers and dbs for staging trellis",
-                "VpcId": "vpc-66d01601",
+                "VpcId": {"Ref": "VpcId"},
                 "SecurityGroupEgress": [
                     {
                         "FromPort": "0",
@@ -41,20 +49,21 @@
                     }
                 ],
                 "Tags": [
-                    {"Key": "Name", "Value": "radref-trellis-securitygroup"},
+                    {"Key": "Name", "Value": "radref-trellis-security-group"},
                     {"Key": "Grouping", "Value": "wordpress"},
                     {"Key": "Project", "Value": "radref"}
                 ]
             }
         },
-        "StagingEC2": {
+        "RadRefEC2": {
             "Type": "AWS::EC2::Instance",
             "DependsOn" : ["RadRefSecurityGroup"],
             "Properties": {
                 "ImageId": {"Ref": "Ec2Image"},
                 "InstanceType": "t2.nano",
-                "KeyName": "trellis",
-                "SecurityGroups": [ "radref-trellis-security-group" ],
+                "KeyName": "radref-trellis",
+                "SubnetId": {"Ref": "SubnetId"},
+                "SecurityGroupIds": [ {"Ref": "RadRefSecurityGroup"} ],
                 "Tags" : [
                     {"Key" : "Name", "Value" : "radref-wordpress"},
                     {"Key": "Grouping", "Value": "wordpress"},
