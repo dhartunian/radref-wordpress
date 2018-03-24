@@ -23,7 +23,7 @@
     chdir: "{{ project_local_path }}/web/app/themes/radref-sage"
 - name: Copy production assets
   synchronize:
-    src: "{{ project_local_path }}/web/app/themes/sage/dist"
+    src: "{{ project_local_path }}/web/app/themes/radref-sage/dist"
     dest: "{{ deploy_helper.new_release_path }}/web/app/themes/radref-sage"
     group: no
     owner: no
