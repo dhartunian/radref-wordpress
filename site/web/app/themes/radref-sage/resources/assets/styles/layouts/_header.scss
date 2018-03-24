@@ -5,3 +5,8 @@
 .banner .nav a {
   @extend .nav-link;
 }
+
+.banner img {
+  float: left;
+  height: 200px;
+}

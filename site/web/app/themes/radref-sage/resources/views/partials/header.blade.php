@@ -1,4 +1,5 @@
 <header class="banner">
+  <img src="@asset('images/radref5.png')" />
   <div class="container">
     <a class="brand" href="{{ home_url('/') }}">{{ get_bloginfo('name', 'display') }}</a>
     <nav class="nav-primary">
