@@ -1,9 +1,23 @@
+.nav {
+  margin-bottom: 2em;
+}
+
 .banner .nav li {
   @extend .nav-item;
 }
 
 .banner .nav a {
   @extend .nav-link;
+
+  padding: 0.5em 0 0.1em 0;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  margin: 0 2em 2px 0;
+
+  &:hover {
+    border-bottom: 2px solid $radref-orange;
+    margin: 0 2em 0 0;
+  }
 }
 
 .navbar {
@@ -12,8 +26,4 @@
 
 .navbar img {
   width: 100%;
-}
-
-body {
-  background-color: #ffde97;
 }
